@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollAnimate, ScrollAnimateStagger, ScrollAnimateItem } from "@/components/ui/scroll-animate";
 import { Link } from "react-router-dom";
 import { ArrowRight, Zap, Globe, Cpu, Cloud, Users, Building2, TrendingUp, Shield } from "lucide-react";
+import heroAbstract from "@/assets/hero-abstract.png";
 
 const services = [
   {
@@ -63,9 +64,20 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="section-light py-24 lg:py-32">
-        <div className="container-page">
-          <div className="max-w-4xl">
+      <section className="section-light relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroAbstract} 
+            alt="" 
+            className="w-full h-full object-cover object-right opacity-60"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30" />
+        </div>
+        
+        <div className="container-page relative z-10 py-24 lg:py-32">
+          <div className="max-w-3xl">
             <ScrollAnimate delay={0.1}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
                 Intelligent Systems for
