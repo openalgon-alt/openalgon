@@ -1,10 +1,10 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { ScrollAnimate, ScrollAnimateStagger, ScrollAnimateItem } from "@/components/ui/scroll-animate";
+import { FloatingParticles } from "@/components/ui/floating-particles";
 import { Link } from "react-router-dom";
 import { ArrowRight, Zap, Globe, Cpu, Cloud, Users, Building2, TrendingUp, Shield } from "lucide-react";
 import heroAbstract from "@/assets/hero-abstract.png";
-
 const services = [
   {
     icon: Zap,
@@ -65,6 +65,9 @@ const Index = () => {
     <Layout>
       {/* Hero Section */}
       <section className="section-light relative overflow-hidden">
+        {/* Floating Particles */}
+        <FloatingParticles count={25} className="z-[1]" />
+        
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
