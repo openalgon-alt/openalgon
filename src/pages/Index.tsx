@@ -2,6 +2,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { ScrollAnimate, ScrollAnimateStagger, ScrollAnimateItem } from "@/components/ui/scroll-animate";
 import { FloatingParticles } from "@/components/ui/floating-particles";
+import IntegrationsSection from "@/components/sections/IntegrationsSection";
 import { Link } from "react-router-dom";
 import { ArrowRight, Zap, Globe, Cpu, Cloud, Users, Building2, TrendingUp, Shield } from "lucide-react";
 import heroAbstract from "@/assets/hero-abstract.png";
@@ -184,6 +185,9 @@ const Index = () => {
           </ScrollAnimate>
         </div>
       </section>
+
+      {/* Integrations */}
+      <IntegrationsSection />
 
       {/* Why OpenAlgon */}
       <section className="section-light py-20 lg:py-28 border-t border-border/50">
