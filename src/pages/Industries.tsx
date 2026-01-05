@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { ScrollAnimate, ScrollAnimateStagger, ScrollAnimateItem } from "@/components/ui/scroll-animate";
 import { ArrowRight, Rocket, Building, Palette, ShoppingCart, GraduationCap, Sprout, Home } from "lucide-react";
 
 const industries = [
@@ -54,13 +55,17 @@ const Industries = () => {
       <section className="section-light py-24 lg:py-32">
         <div className="container-page">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
-              Industries
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Deep domain expertise across sectors. We understand the unique challenges 
-              and opportunities in your industry.
-            </p>
+            <ScrollAnimate>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
+                Industries
+              </h1>
+            </ScrollAnimate>
+            <ScrollAnimate delay={0.1}>
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                Deep domain expertise across sectors. We understand the unique challenges 
+                and opportunities in your industry.
+              </p>
+            </ScrollAnimate>
           </div>
         </div>
       </section>
@@ -68,47 +73,52 @@ const Industries = () => {
       {/* Industries Grid */}
       <section className="section-light pb-20 lg:pb-28">
         <div className="container-page">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ScrollAnimateStagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.08}>
             {industries.map((industry) => (
-              <div
-                key={industry.title}
-                className="group p-8 rounded-2xl border border-border hover:border-accent/30 transition-colors bg-background"
-              >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-muted group-hover:bg-accent/10 transition-colors mb-6">
-                  <industry.icon className="h-6 w-6 text-foreground group-hover:text-accent transition-colors" />
+              <ScrollAnimateItem key={industry.title}>
+                <div className="group p-8 rounded-2xl border border-border hover:border-accent/30 transition-colors bg-background h-full">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-muted group-hover:bg-accent/10 transition-colors mb-6">
+                    <industry.icon className="h-6 w-6 text-foreground group-hover:text-accent transition-colors" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3">{industry.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                    {industry.description}
+                  </p>
+                  <div className="space-y-2">
+                    {industry.useCases.map((useCase) => (
+                      <span
+                        key={useCase}
+                        className="inline-block mr-2 mb-2 px-3 py-1 rounded-full bg-muted text-xs font-medium text-foreground"
+                      >
+                        {useCase}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{industry.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                  {industry.description}
-                </p>
-                <div className="space-y-2">
-                  {industry.useCases.map((useCase) => (
-                    <span
-                      key={useCase}
-                      className="inline-block mr-2 mb-2 px-3 py-1 rounded-full bg-muted text-xs font-medium text-foreground"
-                    >
-                      {useCase}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              </ScrollAnimateItem>
             ))}
-          </div>
+          </ScrollAnimateStagger>
         </div>
       </section>
 
       {/* CTA */}
       <section className="section-neutral py-20 lg:py-28">
         <div className="container-page text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Don't See Your Industry?</h2>
-          <p className="text-lg text-dark-foreground/70 max-w-2xl mx-auto mb-10">
-            We work across many sectors. Let's discuss how our expertise 
-            can address your specific industry challenges.
-          </p>
-          <Button variant="accent" size="xl">
-            Talk to Us
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <ScrollAnimate>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Don't See Your Industry?</h2>
+          </ScrollAnimate>
+          <ScrollAnimate delay={0.1}>
+            <p className="text-lg text-dark-foreground/70 max-w-2xl mx-auto mb-10">
+              We work across many sectors. Let's discuss how our expertise 
+              can address your specific industry challenges.
+            </p>
+          </ScrollAnimate>
+          <ScrollAnimate delay={0.2}>
+            <Button variant="accent" size="xl">
+              Talk to Us
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </ScrollAnimate>
         </div>
       </section>
     </Layout>
