@@ -1,7 +1,9 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { ScrollAnimate, ScrollAnimateStagger, ScrollAnimateItem } from "@/components/ui/scroll-animate";
+import { FloatingParticles } from "@/components/ui/floating-particles";
 import { ArrowRight, BookOpen, FileText, Lightbulb, Cpu } from "lucide-react";
+import heroResources from "@/assets/hero-resources.png";
 
 const resourceCategories = [
   {
@@ -50,8 +52,21 @@ const Resources = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="section-light py-24 lg:py-32">
-        <div className="container-page">
+      <section className="section-light py-24 lg:py-32 relative overflow-hidden">
+        {/* Floating Particles */}
+        <FloatingParticles count={20} className="z-[1]" />
+        
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroResources} 
+            alt="" 
+            className="w-full h-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/60" />
+        </div>
+        
+        <div className="container-page relative z-[2]">
           <div className="max-w-3xl">
             <ScrollAnimate>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
