@@ -124,93 +124,20 @@ const Company = () => {
         </div>
       </section>
 
-      {/* Careers Placeholder */}
-      <section className="section-light py-20 lg:py-28" id="careers">
+      {/* CTA */}
+      <section className="section-light py-20 lg:py-28 text-center">
         <div className="container-page">
-          <ScrollAnimate>
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Join Our Team</h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                We're always looking for talented engineers, designers, and strategists 
-                who share our passion for building great technology.
-              </p>
-              <Button variant="outline" size="lg">
-                View Open Positions
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </ScrollAnimate>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section className="section-dark py-20 lg:py-28" id="contact">
-        <div className="container-page">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            <ScrollAnimate>
-              <div>
-                <h2 className="text-3xl lg:text-4xl font-bold mb-6">Get in Touch</h2>
-                <p className="text-dark-foreground/70 text-lg mb-8">
-                  Ready to discuss your project? We'd love to hear from you. 
-                  Reach out and let's start a conversation.
-                </p>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <Mail className="h-5 w-5 text-accent" />
-                    <span className="text-dark-foreground/80">hello@openalgon.com</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Phone className="h-5 w-5 text-accent" />
-                    <span className="text-dark-foreground/80">+1 (555) 123-4567</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <MapPin className="h-5 w-5 text-accent" />
-                    <span className="text-dark-foreground/80">Global · Remote-First</span>
-                  </div>
-                </div>
-              </div>
-            </ScrollAnimate>
-            <ScrollAnimate delay={0.15} direction="right">
-              <div className="bg-dark/50 rounded-2xl p-8 border border-dark-foreground/10">
-                <form className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium text-dark-foreground/80 mb-2">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 rounded-lg bg-dark-foreground/10 border border-dark-foreground/20 text-dark-foreground placeholder:text-dark-foreground/50 focus:outline-none focus:border-accent transition-colors"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-dark-foreground/80 mb-2">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      className="w-full px-4 py-3 rounded-lg bg-dark-foreground/10 border border-dark-foreground/20 text-dark-foreground placeholder:text-dark-foreground/50 focus:outline-none focus:border-accent transition-colors"
-                      placeholder="you@company.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-dark-foreground/80 mb-2">
-                      Message
-                    </label>
-                    <textarea
-                      rows={4}
-                      className="w-full px-4 py-3 rounded-lg bg-dark-foreground/10 border border-dark-foreground/20 text-dark-foreground placeholder:text-dark-foreground/50 focus:outline-none focus:border-accent resize-none transition-colors"
-                      placeholder="Tell us about your project..."
-                    />
-                  </div>
-                  <Button variant="accent" size="lg" className="w-full">
-                    Send Message
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </form>
-              </div>
-            </ScrollAnimate>
-          </div>
+           <ScrollAnimate>
+             <h2 className="text-3xl lg:text-4xl font-bold mb-8">Want to know more?</h2>
+             <div className="flex flex-col sm:flex-row justify-center gap-4">
+               <Button variant="outline" size="xl" asChild>
+                 <a href="/careers">Join Our Team</a>
+               </Button>
+               <Button variant="accent" size="xl" asChild>
+                 <a href="/contact">Contact Us</a>
+               </Button>
+             </div>
+           </ScrollAnimate>
         </div>
       </section>
     </Layout>

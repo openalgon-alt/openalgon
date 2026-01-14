@@ -27,7 +27,11 @@ export const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="inline-block mb-4">
-              <span className="text-2xl font-bold tracking-tight">OpenAlgon</span>
+              <img 
+                src="/Balgin-white.png" 
+                alt="OpenAlgon Logo" 
+                className="h-8 w-auto" 
+              />
             </Link>
             <p className="text-dark-foreground/70 text-sm leading-relaxed max-w-xs">
               The team behind intelligent systems. We build technology that transforms businesses.
