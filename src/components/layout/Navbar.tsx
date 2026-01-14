@@ -28,6 +28,10 @@ export const Navbar = () => {
   const [activeCategory, setActiveCategory] = useState<string>(
     servicesData[0].category
   );
+  // Mobile state
+  const [mobileExpandedMenu, setMobileExpandedMenu] = useState<string | null>(null);
+  const [mobileExpandedCategory, setMobileExpandedCategory] = useState<string | null>(null);
+
   const location = useLocation();
 
   const handleMouseEnter = (name: string) => {
@@ -48,6 +52,31 @@ export const Navbar = () => {
       return () => clearTimeout(timer);
     }
   }, [activeMenu]);
+
+  // Reset mobile state when menu is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setMobileExpandedMenu(null);
+      setMobileExpandedCategory(null);
+    }
+  }, [isOpen]);
+
+  const toggleMobileMenu = (name: string) => {
+    if (mobileExpandedMenu === name) {
+      setMobileExpandedMenu(null);
+    } else {
+      setMobileExpandedMenu(name);
+    }
+  };
+
+  const toggleMobileCategory = (category: string) => {
+    if (mobileExpandedCategory === category) {
+      setMobileExpandedCategory(null);
+    } else {
+      setMobileExpandedCategory(category);
+    }
+  };
+
 
   const currentCategoryData = servicesData.find(
     (c) => c.category === activeCategory
@@ -212,72 +241,128 @@ export const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden overflow-hidden bg-background border-t border-border/50 animate-in slide-in-from-top-5 duration-200">
-            <div className="py-4 space-y-4 h-[calc(100vh-4rem)] overflow-y-auto px-4 pb-20">
-              {navLinks.map((link) => (
-                <div key={link.path}>
-                  <Link
-                    to={link.path}
-                    onClick={() => !link.isMegaMenu && !link.dropdownItems && setIsOpen(false)}
-                    className={`block text-lg font-medium transition-colors hover:text-accent py-2 ${location.pathname === link.path
-                      ? "text-foreground"
-                      : "text-muted-foreground"
-                      }`}
-                  >
-                    {link.name}
-                  </Link>
-                  {link.isMegaMenu && (
-                    <div className="pl-4 space-y-4 mt-2 border-l border-border/50 ml-2">
-                      {servicesData.map((category) => (
-                        <div key={category.category} className="space-y-2">
-                          <h4 className="text-sm font-medium text-foreground/80 uppercase tracking-wide py-1 flex items-center gap-2">
-                            <category.icon size={16} />
-                            {category.category}
-                          </h4>
-                          <div className="space-y-2 pl-2 border-l border-border/30 ml-1">
-                            {category.items.map((item) => (
-                              <div key={item.title} className="space-y-1">
-                                <span className="text-xs font-semibold text-muted-foreground/80 block mt-2 mb-1">
-                                  {item.title}
-                                </span>
-                                {item.services.map((service) => (
-                                  <Link
-                                    key={service}
-                                    to="/services"
-                                    onClick={() => setIsOpen(false)}
-                                    className="block text-sm text-muted-foreground hover:text-accent transition-colors"
-                                  >
-                                    {service}
-                                  </Link>
-                                ))}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Regular Dropdown (Mobile) */}
-                  {link.dropdownItems && (
-                    <div className="pl-4 space-y-2 mt-2 border-l border-border/50 ml-2">
-                      {link.dropdownItems?.map((item) => (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          onClick={() => setIsOpen(false)}
-                          className="block text-sm text-muted-foreground hover:text-accent transition-colors py-1"
+          <div className="lg:hidden overflow-hidden bg-background border-t border-border/50 animate-in slide-in-from-top-5 duration-200 absolute left-0 right-0 top-full h-[calc(100vh-4rem)] overflow-y-auto z-50">
+            <div className="py-4 px-4 pb-20 space-y-2">
+              {navLinks.map((link) => {
+                const hasChildren = link.isMegaMenu || link.dropdownItems;
+                const isExpanded = mobileExpandedMenu === link.name;
+                
+                return (
+                  <div key={link.path} className="border-b border-border/30 last:border-0">
+                    <div className="flex items-center justify-between py-3">
+                      {hasChildren ? (
+                        <button 
+                          onClick={() => toggleMobileMenu(link.name)}
+                          className={`flex-1 text-left text-lg font-medium transition-colors ${
+                             isExpanded ? "text-accent" : "text-foreground"
+                          }`}
                         >
-                          {item.name}
+                          {link.name}
+                        </button>
+                      ) : (
+                        <Link
+                          to={link.path}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex-1 text-lg font-medium transition-colors ${location.pathname === link.path
+                            ? "text-accent"
+                            : "text-foreground"
+                            }`}
+                        >
+                          {link.name}
                         </Link>
-                      ))}
+                      )}
+                      
+                      {hasChildren && (
+                        <button 
+                          onClick={() => toggleMobileMenu(link.name)}
+                          className="p-1"
+                        >
+                          <ChevronDown 
+                            size={20} 
+                            className={`text-muted-foreground transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                          />
+                        </button>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
-              <Button variant="accent" size="default" className="w-full mt-8" asChild>
-                <Link to="/company#contact" onClick={() => setIsOpen(false)}>Talk to Experts</Link>
-              </Button>
+
+                    {/* Expandable Content */}
+                    {hasChildren && isExpanded && (
+                      <div className="pb-4 animate-in slide-in-from-top-2 duration-200">
+                        
+                        {/* Services Mega Menu Logic */}
+                        {link.isMegaMenu && (
+                          <div className="space-y-2 pl-2">
+                            {servicesData.map((category) => {
+                                const isCategoryExpanded = mobileExpandedCategory === category.category;
+                                return (
+                                  <div key={category.category} className="border-l-2 border-border/50 pl-3 ml-1">
+                                    <button 
+                                      onClick={() => toggleMobileCategory(category.category)}
+                                      className="flex items-center justify-between w-full py-2 text-left"
+                                    >
+                                      <div className="flex items-center gap-2.5">
+                                        <category.icon size={18} className="text-accent" />
+                                        <span className={`font-medium ${isCategoryExpanded ? "text-foreground" : "text-muted-foreground"}`}>
+                                           {category.category}
+                                        </span>
+                                      </div>
+                                      <ChevronDown size={16} className={`text-muted-foreground transition-transform ${isCategoryExpanded ? "rotate-180" : ""}`} />
+                                    </button>
+
+                                    {isCategoryExpanded && (
+                                       <div className="mt-2 space-y-4 pl-1 animate-in slide-in-from-top-1 duration-200">
+                                         {category.items.map((item) => (
+                                           <div key={item.title}>
+                                              <h5 className="text-sm font-semibold text-foreground mb-2">{item.title}</h5>
+                                              <div className="space-y-3 pl-2 border-l border-border/30">
+                                                {item.services.map((service) => (
+                                                   <Link
+                                                     key={service}
+                                                     to="/services"
+                                                     onClick={() => setIsOpen(false)}
+                                                     className="block text-sm text-muted-foreground hover:text-accent py-1"
+                                                   >
+                                                     {service}
+                                                   </Link>
+                                                ))}
+                                              </div>
+                                           </div>
+                                         ))}
+                                       </div>
+                                    )}
+                                  </div>
+                                )
+                            })}
+                          </div>
+                        )}
+
+                        {/* Regular Dropdown (Company) */}
+                        {link.dropdownItems && (
+                           <div className="space-y-2 pl-4 border-l-2 border-border/50 ml-1">
+                              {link.dropdownItems.map((item) => (
+                                <Link
+                                  key={item.path}
+                                  to={item.path}
+                                  onClick={() => setIsOpen(false)}
+                                  className="block py-2 text-base text-muted-foreground hover:text-accent"
+                                >
+                                  {item.name}
+                                </Link>
+                              ))}
+                           </div>
+                        )}
+
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+              
+              <div className="pt-6">
+                <Button variant="accent" size="lg" className="w-full" asChild>
+                  <Link to="/company#contact" onClick={() => setIsOpen(false)}>Talk to Experts</Link>
+                </Button>
+              </div>
             </div>
           </div>
         )}
