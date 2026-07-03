@@ -17,6 +17,7 @@ const navLinks = [
     dropdownItems: [
       { name: "About", path: "/company" },
       { name: "Careers", path: "/careers" },
+      { name: "Enquire", path: "/enquire" },
       { name: "Contact Us", path: "/contact" },
     ]
   },
@@ -147,7 +148,7 @@ export const Navbar = () => {
           <div className="hidden lg:flex items-center gap-4">
             <ModeToggle />
             <Button variant="accent" size="default" asChild>
-              <Link to="/company#contact">Talk to Experts</Link>
+              <Link to="/enquire">Enquire Now</Link>
             </Button>
           </div>
 
@@ -360,7 +361,7 @@ export const Navbar = () => {
               
               <div className="pt-6">
                 <Button variant="accent" size="lg" className="w-full" asChild>
-                  <Link to="/company#contact" onClick={() => setIsOpen(false)}>Talk to Experts</Link>
+                  <Link to="/enquire" onClick={() => setIsOpen(false)}>Enquire Now</Link>
                 </Button>
               </div>
             </div>

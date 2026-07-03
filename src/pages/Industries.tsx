@@ -4,6 +4,8 @@ import { ScrollAnimate, ScrollAnimateStagger, ScrollAnimateItem } from "@/compon
 import { FloatingParticles } from "@/components/ui/floating-particles";
 import { ArrowRight, Rocket, Building, Palette, ShoppingCart, GraduationCap, Sprout, Home } from "lucide-react";
 import heroIndustries from "@/assets/hero-industries.png";
+import SEOHead from "@/components/SEOHead";
+import { pageSEO } from "@/lib/seo";
 
 const industries = [
   {
@@ -53,6 +55,7 @@ const industries = [
 const Industries = () => {
   return (
     <Layout>
+      <SEOHead {...pageSEO.industries} />
       {/* Hero */}
       <section className="section-light py-24 lg:py-32 relative overflow-hidden">
         {/* Floating Particles */}
@@ -62,7 +65,7 @@ const Industries = () => {
         <div className="absolute inset-0 z-0">
           <img 
             src={heroIndustries} 
-            alt="" 
+            alt="OpenAlgon Industries and Verticals Background" 
             className="w-full h-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/60" />

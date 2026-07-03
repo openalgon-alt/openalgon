@@ -9,8 +9,9 @@ const footerLinks = {
   ],
   company: [
     { name: "About Us", path: "/company" },
-    { name: "Careers", path: "/company#careers" },
-    { name: "Contact", path: "/company#contact" },
+    { name: "Careers", path: "/careers" },
+    { name: "Enquire", path: "/enquire" },
+    { name: "Contact", path: "/contact" },
   ],
   resources: [
     { name: "Insights", path: "/resources#insights" },

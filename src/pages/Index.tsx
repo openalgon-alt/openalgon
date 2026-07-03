@@ -7,6 +7,9 @@ import ReasonsSection from "@/components/sections/ReasonsSection";
 import { Link } from "react-router-dom";
 import { ArrowRight, Zap, Globe, Cpu, Cloud, Users, Building2, TrendingUp, Shield } from "lucide-react";
 import heroAbstract from "@/assets/hero-abstract.png";
+import SEOHead from "@/components/SEOHead";
+import StructuredData from "@/components/StructuredData";
+import { pageSEO } from "@/lib/seo";
 const services = [
   {
     icon: Zap,
@@ -65,6 +68,8 @@ const reasons = [
 const Index = () => {
   return (
     <Layout>
+      <SEOHead {...pageSEO.home} />
+      <StructuredData />
       {/* Hero Section */}
       <section className="section-light relative overflow-hidden">
         {/* Floating Particles */}
@@ -74,9 +79,8 @@ const Index = () => {
         <div className="absolute inset-0 z-0">
           <img 
             src={heroAbstract} 
-            alt="" 
+            alt="OpenAlgon AI & Technology Solutions" 
             className="w-full h-full object-cover object-right opacity-60"
-            aria-hidden="true"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30" />
         </div>

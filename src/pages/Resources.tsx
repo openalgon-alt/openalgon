@@ -4,6 +4,8 @@ import { ScrollAnimate, ScrollAnimateStagger, ScrollAnimateItem } from "@/compon
 import { FloatingParticles } from "@/components/ui/floating-particles";
 import { ArrowRight, BookOpen, FileText, Lightbulb, Cpu } from "lucide-react";
 import heroResources from "@/assets/hero-resources.png";
+import SEOHead from "@/components/SEOHead";
+import { pageSEO } from "@/lib/seo";
 
 const resourceCategories = [
   {
@@ -51,6 +53,7 @@ const resourceCategories = [
 const Resources = () => {
   return (
     <Layout>
+      <SEOHead {...pageSEO.resources} />
       {/* Hero */}
       <section className="section-light py-24 lg:py-32 relative overflow-hidden">
         {/* Floating Particles */}
@@ -60,7 +63,7 @@ const Resources = () => {
         <div className="absolute inset-0 z-0">
           <img 
             src={heroResources} 
-            alt="" 
+            alt="OpenAlgon Tech Resources and Insights Background" 
             className="w-full h-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/60" />

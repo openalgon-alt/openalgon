@@ -4,12 +4,16 @@ import { ScrollAnimate } from "@/components/ui/scroll-animate";
 import { FloatingParticles } from "@/components/ui/floating-particles";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import heroServices from "@/assets/hero-services.png";
+import SEOHead from "@/components/SEOHead";
+import { pageSEO } from "@/lib/seo";
+import { Link } from "react-router-dom";
 
 import { servicesData } from "@/data/services";
 
 const Services = () => {
   return (
     <Layout>
+      <SEOHead {...pageSEO.services} />
       {/* Hero */}
       <section className="section-light py-24 lg:py-32 relative overflow-hidden">
         {/* Floating Particles */}
@@ -19,7 +23,7 @@ const Services = () => {
         <div className="absolute inset-0 z-0">
           <img
             src={heroServices}
-            alt=""
+            alt="OpenAlgon IT and Software Services Background"
             className="w-full h-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/60" />
@@ -118,9 +122,12 @@ const Services = () => {
               variant="accent"
               size="xl"
               className="bg-accent text-white hover:bg-accent/90"
+              asChild
             >
-              Start a Conversation
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <Link to="/contact">
+                Start a Conversation
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
           </ScrollAnimate>
         </div>
