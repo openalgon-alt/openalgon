@@ -433,48 +433,46 @@ const ApplicationsTab = () => {
           
           {selectedApp?.application_data && (
             <div className="space-y-6 mt-4">
-              {/* Education & Basics */}
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-muted-foreground text-xs">Location</p>
-                  <p className="font-medium">{selectedApp.application_data.city}, {selectedApp.application_data.state}</p>
-                </div>
-                <div>
-                  <p className="text-muted-foreground text-xs">Education</p>
-                  <p className="font-medium">{selectedApp.application_data.degree} in {selectedApp.application_data.branch}</p>
-                  <p className="text-xs text-muted-foreground">{selectedApp.application_data.college} ({selectedApp.application_data.gradYear}) - CGPA: {selectedApp.application_data.cgpa}</p>
-                </div>
-              </div>
-
-              {/* Skills */}
+              {/* Links */}
               <div className="space-y-2">
-                <p className="font-semibold text-sm border-b pb-1">Skills</p>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {selectedApp.application_data.programmingLanguages?.map((s: string) => <span key={s} className="px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-full">{s}</span>)}
-                  {selectedApp.application_data.frontendFrameworks?.map((s: string) => <span key={s} className="px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-full">{s}</span>)}
-                  {selectedApp.application_data.backendTech?.map((s: string) => <span key={s} className="px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded-full">{s}</span>)}
+                <p className="font-semibold text-sm border-b pb-1">Profiles & Links</p>
+                <div className="grid gap-3 text-sm mt-2">
+                  {selectedApp.application_data.portfolio && (
+                    <div className="flex flex-col">
+                      <span className="text-muted-foreground text-xs font-medium">Portfolio</span>
+                      <a href={selectedApp.application_data.portfolio} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline break-all">
+                        {selectedApp.application_data.portfolio}
+                      </a>
+                    </div>
+                  )}
+                  {selectedApp.application_data.linkedin && (
+                    <div className="flex flex-col">
+                      <span className="text-muted-foreground text-xs font-medium">LinkedIn</span>
+                      <a href={selectedApp.application_data.linkedin} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline break-all">
+                        {selectedApp.application_data.linkedin}
+                      </a>
+                    </div>
+                  )}
+                  {selectedApp.application_data.github && (
+                    <div className="flex flex-col">
+                      <span className="text-muted-foreground text-xs font-medium">GitHub</span>
+                      <a href={selectedApp.application_data.github} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline break-all">
+                        {selectedApp.application_data.github}
+                      </a>
+                    </div>
+                  )}
+                  {!selectedApp.application_data.portfolio && !selectedApp.application_data.linkedin && !selectedApp.application_data.github && (
+                    <p className="text-muted-foreground italic">No links provided.</p>
+                  )}
                 </div>
-              </div>
-
-              {/* AI Experience */}
-              <div className="space-y-2">
-                <p className="font-semibold text-sm border-b pb-1">AI Experience</p>
-                <p className="text-sm">Used AI in projects: <span className="font-medium">{selectedApp.application_data.usedAI}</span></p>
-                {selectedApp.application_data.aiApisIntegrated?.length > 0 && (
-                  <p className="text-sm mt-1">APIs: {selectedApp.application_data.aiApisIntegrated.join(", ")}</p>
-                )}
               </div>
 
               {/* Motivation */}
               <div className="space-y-3">
                 <p className="font-semibold text-sm border-b pb-1">Motivation</p>
                 <div>
-                  <p className="text-xs font-medium text-muted-foreground mb-1">Why Join?</p>
-                  <p className="text-sm bg-muted/30 p-2 rounded">{selectedApp.application_data.whyJoin || "N/A"}</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-muted-foreground mb-1">Expect to Learn</p>
-                  <p className="text-sm bg-muted/30 p-2 rounded">{selectedApp.application_data.expectToLearn || "N/A"}</p>
+                  <p className="text-xs font-medium text-muted-foreground mb-1">Why do you want to join OpenAlgon?</p>
+                  <p className="text-sm bg-muted/30 p-3 rounded-lg leading-relaxed whitespace-pre-wrap">{selectedApp.application_data.whyJoin || "N/A"}</p>
                 </div>
               </div>
             </div>

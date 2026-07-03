@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, UploadCloud, CheckCircle } from "lucide-react";
+import * as pdfjsLib from 'pdfjs-dist';
 
 // Standard, small form schema
 const formSchema = z.object({
@@ -59,21 +60,100 @@ export default function Apply() {
     fetchPos();
   }, [slug]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
     setResumeFile(file);
-    if (file) {
-      toast({ title: "Analyzing Resume...", description: "Extracting your details automatically..." });
-      setIsExtracting(true);
-      setTimeout(() => {
-        form.setValue("fullName", "Alex Morgan");
-        form.setValue("email", "alex.morgan@example.com");
-        form.setValue("mobile", "9876543210");
-        form.setValue("linkedin", "https://linkedin.com/in/alexmorgan");
-        form.setValue("github", "https://github.com/alexmorgan");
-        setIsExtracting(false);
-        toast({ title: "Auto-fill Complete! ✨", description: "Fields have been populated from your resume." });
-      }, 1500);
+    if (!file) return;
+
+    toast({ title: "Analyzing Resume...", description: "Extracting your details automatically..." });
+    setIsExtracting(true);
+
+    try {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+
+      const arrayBuffer = await file.arrayBuffer();
+      const data = new Uint8Array(arrayBuffer);
+      const pdf = await pdfjsLib.getDocument({ data }).promise;
+      let text = "";
+      // Only parse first 2 pages to save time and memory
+      const maxPages = Math.min(pdf.numPages, 2);
+      for (let i = 1; i <= maxPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        text += content.items.map((item: any) => item.str).join(" ") + " ";
+      }
+
+      const emailMatch = text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/);
+      if (emailMatch) form.setValue("email", emailMatch[1]);
+      else form.setValue("email", "");
+
+      // Match common phone formats, especially Indian numbers since it's a common usecase based on +91
+      const phoneMatch = text.match(/(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}/);
+      if (phoneMatch) form.setValue("mobile", phoneMatch[0].replace(/\D/g, ''));
+      else form.setValue("mobile", "");
+
+      const linkedinMatch = text.match(/linkedin\.com\/in\/[a-zA-Z0-9_-]+/i);
+      if (linkedinMatch) form.setValue("linkedin", "https://" + linkedinMatch[0]);
+      else form.setValue("linkedin", "");
+
+      const githubMatch = text.match(/github\.com\/[a-zA-Z0-9_-]+/i);
+      if (githubMatch) form.setValue("github", "https://" + githubMatch[0]);
+      else form.setValue("github", "");
+
+      // Advanced Portfolio Extraction
+      let portfolioUrl = "";
+      
+      // Strategy 1: Look for words like 'portfolio' or 'website' near a domain (.com, .net, etc)
+      const explicitMatch = text.match(/(?:portfolio|website|site)[\s:|-]{1,10}(?:https?:\/\/|www\.)?([a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[a-zA-Z0-9_.-]+)*)/i);
+      if (explicitMatch && !explicitMatch[0].toLowerCase().includes("linkedin") && !explicitMatch[0].toLowerCase().includes("github")) {
+        portfolioUrl = explicitMatch[1];
+      }
+      
+      // Strategy 2: Look for ANY link starting with http:// or www. that isn't linkedin/github
+      if (!portfolioUrl) {
+        const httpMatches = text.match(/(?:https?:\/\/|www\.)([a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[a-zA-Z0-9_.-]+)*)/ig);
+        if (httpMatches) {
+          const validHttp = httpMatches.find(u => !u.toLowerCase().includes("linkedin") && !u.toLowerCase().includes("github"));
+          if (validHttp) portfolioUrl = validHttp;
+        }
+      }
+      
+      // Strategy 3: Fallback to common dev/design domains even if they don't have http/www
+      if (!portfolioUrl) {
+         const domainMatch = text.match(/([a-zA-Z0-9-]+\.(?:vercel\.app|netlify\.app|github\.io|behance\.net|dribbble\.com|me|dev))(?:\/[a-zA-Z0-9_.-]+)?/i);
+         if (domainMatch) portfolioUrl = domainMatch[0];
+      }
+
+      if (portfolioUrl) {
+        // Clean up trailing punctuation if accidentally caught
+        portfolioUrl = portfolioUrl.replace(/[.,;)]+$/, '');
+        // Ensure valid URL format
+        let cleanUrl = portfolioUrl.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '');
+        form.setValue("portfolio", 'https://' + cleanUrl);
+      } else {
+        form.setValue("portfolio", "");
+      }
+
+      // Smarter Name Extraction from Filename (Removes numbers, dots, and common words like 'final', 'updated')
+      let nameFromFilename = file.name
+        .replace(/\.pdf$/i, '')
+        .replace(/[0-9.]+/g, ' ') // Remove all numbers and dots (like 4.2)
+        .replace(/[_-\s]+/g, ' ') // Convert underscores/dashes to spaces
+        .replace(/\b(resume|cv|final|updated|latest|draft|copy|portfolio|profile)\b/ig, '') // Remove common filler words
+        .trim();
+        
+      // Capitalize first letter of each word
+      nameFromFilename = nameFromFilename.split(' ').filter(Boolean).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+      
+      form.setValue("fullName", nameFromFilename || "");
+
+      toast({ title: "Auto-fill Complete! ✨", description: "We extracted what we could. Please verify the details." });
+    } catch (error) {
+      console.error(error);
+      toast({ title: "Extraction Limited", description: "Could not fully parse PDF text. Please enter details manually." });
+      form.setValue("fullName", file.name.replace(/\.pdf$/i, '').replace(/[_-\s]+/g, ' ').replace(/resume|cv/ig, '').trim());
+    } finally {
+      setIsExtracting(false);
     }
   };
 
@@ -99,9 +179,9 @@ export default function Apply() {
     const { error } = await supabase.from("internship_applications").insert({
       position_id: position?.id,
       position_title: position?.title,
-      full_name: values.fullName,
-      email: values.email,
-      phone: values.mobile,
+      applicant_name: values.fullName,
+      applicant_email: values.email,
+      applicant_phone: values.mobile,
       resume_url: finalResumeUrl,
       application_data: values 
     });
@@ -109,9 +189,10 @@ export default function Apply() {
     setIsSubmitting(false);
 
     if (error) {
+      console.error("[OpenAlgon] DB insert failed:", error);
       toast({ title: "Application Failed", description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Application Submitted! 🎉", description: "We will get back to you soon." });
+      toast({ title: "Application Submitted! 🎉", description: "Your application has been received successfully." });
       navigate("/careers");
     }
   };
