@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import SEOHead from "@/components/SEOHead";
 import { pageSEO } from "@/lib/seo";
 import { supabase, uploadResume, InternshipPosition, InternshipApplication, JobPosition } from "@/lib/supabase";
+import { createSlug } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -55,7 +56,7 @@ const Careers = () => {
   }, []);
 
   const handleApply = (position: InternshipPosition) => {
-    navigate(`/apply/${position.id}`);
+    navigate(`/apply/${createSlug(position.title)}`);
   };
 
   type UnifiedPosition = (JobPosition & { kind: "job" }) | (InternshipPosition & { kind: "internship" });
@@ -276,11 +277,9 @@ const Careers = () => {
                       {pos.kind === "job" ? (
                         <Button className="w-full md:w-auto group-hover:bg-accent group-hover:text-white transition-all duration-300" asChild>
                           <a
-                            href={`https://wa.me/919742182343?text=${encodeURIComponent(`Hi, I am interested in the ${pos.title} role at OpenAlgon. Can you please provide more details?`)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href={`mailto:careers@openalgon.com?subject=${encodeURIComponent(`Application for ${pos.title} role`)}&body=${encodeURIComponent(`Hi, I am interested in the ${pos.title} role at OpenAlgon. Please find my application and resume attached.`)}`}
                           >
-                            Apply via WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
+                            Apply via Mail <ArrowRight className="ml-2 h-4 w-4" />
                           </a>
                         </Button>
                       ) : (
