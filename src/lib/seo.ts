@@ -174,6 +174,13 @@ export const pageSEO: Record<string, PageSEO> = {
     keywords: `${GLOBAL_KEYWORDS}, resources, blog, AI articles, tech insights, cybersecurity guides, digital transformation case studies, Bangalore tech blog`,
     canonical: `${SITE_URL}/resources`,
   },
+  caseStudies: {
+    title: 'Case Studies — Real Problems, Thoughtful Technology | OpenAlgon',
+    description:
+      'Explore how OpenAlgon approaches business challenges through custom software, AI, automation, and practical digital solutions.',
+    keywords: `${GLOBAL_KEYWORDS}, case studies, proof of work, business technology outcomes, software projects`,
+    canonical: `${SITE_URL}/case-studies`,
+  },
   admin: {
     title: 'Admin — OpenAlgon Internal Dashboard',
     description: 'OpenAlgon admin dashboard for managing internship listings and applications.',

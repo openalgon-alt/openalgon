@@ -10,6 +10,7 @@ const navLinks = [
   { name: "Services", path: "/services", isMegaMenu: true },
   { name: "Industries", path: "/industries" },
   { name: "Resources", path: "/resources" },
+  { name: "Case Studies", path: "/case-studies" },
   { name: "Pricing", path: "/pricing" },
   { 
     name: "Company", 
