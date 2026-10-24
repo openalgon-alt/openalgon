@@ -29,6 +29,11 @@ const CaseStudyDetail = () => {
           <p className="mb-5 text-sm font-semibold uppercase tracking-[0.16em] text-accent">{caseStudy.category} / {caseStudy.industry}</p>
           <h1 className="max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">{caseStudy.title}</h1>
           <p className="mt-7 max-w-2xl text-lg leading-relaxed text-dark-foreground/70">{caseStudy.summary}</p>
+          {caseStudy.evidenceNote && (
+            <p className="mt-6 max-w-2xl border-l-2 border-accent pl-4 text-sm leading-relaxed text-dark-foreground/60">
+              {caseStudy.evidenceNote}
+            </p>
+          )}
         </div>
       </section>
 

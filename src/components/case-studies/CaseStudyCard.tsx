@@ -25,6 +25,11 @@ export const CaseStudyCard = ({ caseStudy }: CaseStudyCardProps) => (
           Preview placeholder
         </span>
       )}
+      {!caseStudy.isPlaceholder && (
+        <span className="absolute bottom-4 left-4 rounded-full border border-white/30 bg-foreground/70 px-3 py-1 text-xs font-medium text-background backdrop-blur-sm">
+          Project profile
+        </span>
+      )}
       <ArrowUpRight className="absolute right-5 top-5 h-5 w-5 text-background opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
     </Link>
 
@@ -69,6 +74,9 @@ export const CaseStudyCard = ({ caseStudy }: CaseStudyCardProps) => (
       >
         View Case Study <ArrowUpRight className="h-4 w-4" />
       </Link>
+      {caseStudy.evidenceNote && (
+        <p className="mt-4 text-xs leading-relaxed text-muted-foreground/80">{caseStudy.evidenceNote}</p>
+      )}
     </div>
   </article>
 );
