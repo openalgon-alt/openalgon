@@ -11,6 +11,7 @@ const navLinks = [
   { name: "Industries", path: "/industries" },
   { name: "Resources", path: "/resources" },
   { name: "Case Studies", path: "/case-studies" },
+  { name: "Academy", path: "/academy" },
   { name: "Pricing", path: "/pricing" },
   { 
     name: "Company", 

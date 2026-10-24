@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowDown, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -22,11 +22,19 @@ const CaseStudies = () => (
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-dark-foreground/70 md:text-xl">
             Explore how we approach business challenges through custom software, AI, automation, and practical digital solutions.
           </p>
+          <a
+            href="#selected-work"
+            className="mt-10 inline-flex items-center gap-3 rounded-full border border-dark-foreground/25 px-4 py-2.5 text-sm font-medium text-dark-foreground/80 transition-colors hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+            aria-label="Scroll down to selected case studies"
+          >
+            Explore selected work
+            <ArrowDown className="h-4 w-4 animate-bounce" />
+          </a>
         </ScrollAnimate>
       </div>
     </section>
 
-    <section className="section-light py-20 lg:py-28">
+    <section id="selected-work" className="section-light scroll-mt-24 py-20 lg:py-28">
       <div className="container-page">
         <ScrollAnimate>
           <div className="mb-10 flex flex-col justify-between gap-5 md:mb-14 md:flex-row md:items-end">

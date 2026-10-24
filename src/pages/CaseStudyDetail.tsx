@@ -27,7 +27,12 @@ const CaseStudyDetail = () => {
             <ArrowLeft className="h-4 w-4" /> Back to Case Studies
           </Link>
           <p className="mb-5 text-sm font-semibold uppercase tracking-[0.16em] text-accent">{caseStudy.category} / {caseStudy.industry}</p>
-          <h1 className="max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">{caseStudy.title}</h1>
+          <div className="mb-5 flex flex-wrap gap-3 text-sm text-dark-foreground/60">
+            {caseStudy.solutionType && <span>{caseStudy.solutionType}</span>}
+            {caseStudy.status && <span className="rounded-full border border-dark-foreground/20 px-3 py-1">{caseStudy.status}</span>}
+          </div>
+          <h1 className="max-w-4xl text-4xl font-semibold leading-tight md:text-6xl">{caseStudy.headline || caseStudy.title}</h1>
+          <p className="mt-3 text-xl text-dark-foreground/80">{caseStudy.title}</p>
           <p className="mt-7 max-w-2xl text-lg leading-relaxed text-dark-foreground/70">{caseStudy.summary}</p>
           {caseStudy.evidenceNote && (
             <p className="mt-6 max-w-2xl border-l-2 border-accent pl-4 text-sm leading-relaxed text-dark-foreground/60">
@@ -43,6 +48,7 @@ const CaseStudyDetail = () => {
           <div className="space-y-8">
             <DetailSection title="Business context" text={caseStudy.context} />
             <DetailSection title="The challenge" text={caseStudy.challenge} />
+            <DetailSection title="Our approach" text={caseStudy.approach} />
             <DetailSection title="The solution" text={caseStudy.solution} />
           </div>
         </div>
@@ -50,13 +56,31 @@ const CaseStudyDetail = () => {
 
       <section className="section-light border-t border-border/60 py-16 lg:py-24">
         <div className="container-page grid gap-12 md:grid-cols-2">
-          <DetailSection title="Implementation & architecture" text={caseStudy.implementation || caseStudy.architecture} />
+          <div className="space-y-8">
+            <DetailSection title="Implementation & architecture" text={caseStudy.implementation || caseStudy.architecture} />
+            {caseStudy.architecture && caseStudy.implementation && <DetailSection title="Architecture" text={caseStudy.architecture} />}
+          </div>
           <div>
             <h2 className="mb-5 text-2xl font-semibold">Technology stack</h2>
             <div className="flex flex-wrap gap-2">
               {caseStudy.technologies.map((technology) => <span key={technology} className="rounded-full bg-muted px-4 py-2 text-sm text-muted-foreground">{technology}</span>)}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="section-light border-t border-border/60 py-16 lg:py-24">
+        <div className="container-page">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-accent">Results & evidence</p>
+          <h2 className="mb-5 text-3xl font-semibold">What is demonstrated today</h2>
+          {caseStudy.evidence?.length ? (
+            <div className="grid gap-4 md:grid-cols-2">
+              {caseStudy.evidence.map((item) => <div key={item} className="flex gap-3 rounded-xl border border-border p-5"><CheckCircle2 className="h-5 w-5 shrink-0 text-accent" /><span className="text-muted-foreground">{item}</span></div>)}
+            </div>
+          ) : (
+            <p className="text-muted-foreground">Verified outcome evidence is not published for this project yet.</p>
+          )}
+          <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">{caseStudy.evidenceNote}</p>
         </div>
       </section>
 

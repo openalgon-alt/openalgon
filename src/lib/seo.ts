@@ -181,6 +181,13 @@ export const pageSEO: Record<string, PageSEO> = {
     keywords: `${GLOBAL_KEYWORDS}, case studies, proof of work, business technology outcomes, software projects`,
     canonical: `${SITE_URL}/case-studies`,
   },
+  academy: {
+    title: 'OpenAlgon Academy — AI & Fullstack Builder Fellowship',
+    description:
+      'OpenAlgon Academy launches on 26th October with a practical builder fellowship focused on learning, shipping real products, and gaining startup experience.',
+    keywords: `${GLOBAL_KEYWORDS}, OpenAlgon Academy, AI fellowship, fullstack fellowship, builder fellowship, startup experience`,
+    canonical: `${SITE_URL}/academy`,
+  },
   admin: {
     title: 'Admin — OpenAlgon Internal Dashboard',
     description: 'OpenAlgon admin dashboard for managing internship listings and applications.',

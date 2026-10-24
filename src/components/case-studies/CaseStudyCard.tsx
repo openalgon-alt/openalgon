@@ -39,6 +39,10 @@ export const CaseStudyCard = ({ caseStudy }: CaseStudyCardProps) => (
         <span className="text-border">/</span>
         <span className="text-muted-foreground">{caseStudy.industry}</span>
       </div>
+      <div className="mb-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
+        {caseStudy.solutionType && <span>{caseStudy.solutionType}</span>}
+        {caseStudy.status && <span className="rounded-full bg-muted px-2.5 py-1">{caseStudy.status}</span>}
+      </div>
       <h2 className="text-2xl font-semibold tracking-tight">{caseStudy.title}</h2>
       <p className="mt-3 leading-relaxed text-muted-foreground">{caseStudy.summary}</p>
 
